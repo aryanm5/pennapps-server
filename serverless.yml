@@ -1,0 +1,85 @@
+service: pennapps-server
+frameworkVersion: '2 || 3'
+
+plugins:
+  - serverless-stage-manager
+  - serverless-domain-manager
+  - serverless-plugin-optimize
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  apiGateway:
+    shouldStartNameWithService: true
+  stage: ${opt:stage, 'dev'}
+  lambdaHashingVersion: '20201221'
+  environment:
+    STAGE: ${self:provider.stage}
+    PASS: ${self:custom.env.pass}
+
+  iam: # permissions for all of your functions can be set here
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+            - cloudwatch:*
+          Resource: '*'
+
+package:
+  individually: true
+  excludeDevDependencies: true # false for tree shaking package
+#  patterns: # include these in package
+#    - src/**
+#    - package.json
+#    - env/**
+#    - serverless.yml
+#  include:
+#    - src/**
+  exclude:
+    - README.md
+
+functions:
+  sendPatientResults:
+    handler: src/handlers/sendPatientResults.sendPatientResults
+    events:
+      - http:
+          path: sendPatientResults
+          method: post
+  doctorLogin:
+    handler: src/handlers/private/doctorLogin.doctorLogin
+    events:
+      - http:
+          path: doctorLogin
+          method: post
+
+resources:
+  Resources:
+    pennappsTable:
+          Type: AWS::DynamoDB::Table
+          Properties:
+            TableName: ${self:custom.env.pennappsTableName}
+            AttributeDefinitions:
+              - AttributeName: id
+                AttributeType: S
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            BillingMode: PAY_PER_REQUEST
+
+
+custom:
+  optimize:
+    global: true # Minifies node_modules
+  stages:
+    - dev
+  env: ${file(env/${self:provider.stage}.yml)}
+  customDomain:
+    domainName: api.mittaldev.com
+    stage: ${self:provider.stage}
+    basePath: ${self:custom.env.basePath}
+    certificateName: '*.mittaldev.com'
+    createRoute53Record: true
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    autoDomain: false

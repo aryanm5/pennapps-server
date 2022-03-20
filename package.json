@@ -1,0 +1,24 @@
+{
+  "name": "pennapps-server",
+  "version": "1.0.0",
+  "description": "PennApps hackathon server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aryanm5/pennapps-server.git"
+  },
+  "author": "Aryan Mittal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aryanm5/pennapps-server/issues"
+  },
+  "homepage": "https://github.com/aryanm5/pennapps-server#readme",
+  "devDependencies": {
+    "serverless-domain-manager": "^6.0.2",
+    "serverless-plugin-optimize": "^4.2.1-rc.1",
+    "serverless-stage-manager": "^1.0.5"
+  }
+}
