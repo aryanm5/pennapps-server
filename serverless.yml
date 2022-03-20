@@ -15,7 +15,7 @@ provider:
   lambdaHashingVersion: '20201221'
   environment:
     STAGE: ${self:provider.stage}
-    PASS: ${self:custom.env.pass}
+    PASS: ${self:custom.global.pass}
 
   iam: # permissions for all of your functions can be set here
     role:
@@ -58,7 +58,7 @@ resources:
     pennappsTable:
           Type: AWS::DynamoDB::Table
           Properties:
-            TableName: ${self:custom.env.pennappsTableName}
+            TableName: ${self:custom.global.pennappsTableName}
             AttributeDefinitions:
               - AttributeName: id
                 AttributeType: S
@@ -73,11 +73,11 @@ custom:
     global: true # Minifies node_modules
   stages:
     - dev
-  env: ${file(env/${self:provider.stage}.yml)}
+  global: ${file(global/${self:provider.stage}.yml)}
   customDomain:
     domainName: api.mittaldev.com
     stage: ${self:provider.stage}
-    basePath: ${self:custom.env.basePath}
+    basePath: ${self:custom.global.basePath}
     certificateName: '*.mittaldev.com'
     createRoute53Record: true
     endpointType: 'regional'

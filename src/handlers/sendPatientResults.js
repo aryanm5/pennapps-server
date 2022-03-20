@@ -5,12 +5,12 @@ module.exports.sendPatientResults = async evt => {
     const req = parseRequest(evt);
 
     // input validation
-    if (req.pass === undefined) {
-        return error('Password not included.', 401);
+    if (req.apiPass === undefined) {
+        return error('API password not included.', 401);
     }
 
-    if (req.pass !== process.env.PASS) {
-        return error('Incorrect password.', 401);
+    if (req.apiPass !== process.env.PASS) {
+        return error('API password incorrect.', 401);
     }
 
     if (req.patientId === undefined) {
@@ -28,11 +28,11 @@ module.exports.sendPatientResults = async evt => {
     // update patient result
     try {
         await updateItem(
-                req.patientId,
-                {
-                    result: req.result,
-                    note: req.note,
-                });
+            req.patientId,
+            {
+                result: req.result,
+                note: req.note,
+            });
     } catch (err) {
         console.error(`ERROR while updating patient result: ${err.name}: ${err.message}`);
         return error(`Updating patient result failed. ${err.name}: ${err.message}`, 500);

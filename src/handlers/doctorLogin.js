@@ -6,6 +6,14 @@ module.exports.doctorLogin = async evt => {
     const req = parseRequest(evt);
 
     // input validation
+    if (req.apiPass === undefined) {
+        return error('API password not included.', 401);
+    }
+
+    if (req.apiPass !== process.env.PASS) {
+        return error('API password incorrect.', 401);
+    }
+
     if (req.username === undefined) {
         return error('Username not included.', 401);
     }
@@ -14,7 +22,7 @@ module.exports.doctorLogin = async evt => {
         return error('Password not included.', 401);
     }
 
-    if(doctorPass[req.username] === undefined) {
+    if (doctorPass[req.username] === undefined) {
         return error('Username not found.', 401);
     }
 

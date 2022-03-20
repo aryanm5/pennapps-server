@@ -12,3 +12,6 @@ src/helpers/constants.js
 # Serverless directories
 .serverless
 _optimize
+
+# env
+global/dev.yml
