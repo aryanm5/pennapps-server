@@ -14,15 +14,15 @@ module.exports.sendPatientResults = async evt => {
     }
 
     if (req.patientId === undefined) {
-        return error(`Did not receive patientId. Received input: ${JSON.stringify(req, null, 2)}`, 400);
+        return error(`Did not receive patientId.`, 400);
     }
 
     if (req.result === undefined) {
-        return error(`Did not receive result (0 or 1). Received input: ${JSON.stringify(req, null, 2)}`, 400);
+        return error(`Did not receive result (0 or 1).`, 400);
     }
 
     if (req.note === undefined) {
-        return error(`Did not receive note. Received input: ${JSON.stringify(req, null, 2)}`, 400);
+        return error(`Did not receive note.`, 400);
     }
 
     // update patient result
