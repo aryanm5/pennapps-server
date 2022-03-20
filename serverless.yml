@@ -47,7 +47,7 @@ functions:
           path: sendPatientResults
           method: post
   doctorLogin:
-    handler: src/handlers/private/doctorLogin.doctorLogin
+    handler: src/handlers/doctorLogin.doctorLogin
     events:
       - http:
           path: doctorLogin

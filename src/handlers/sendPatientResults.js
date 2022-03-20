@@ -1,5 +1,5 @@
-import { updateItem } from '../../services/updateItem';
-import { parseRequest, success, error } from '../../helpers/general';
+import { updateItem } from '../services/updateItem';
+import { parseRequest, success, error } from '../helpers/general';
 
 module.exports.sendPatientResults = async evt => {
     const req = parseRequest(evt);

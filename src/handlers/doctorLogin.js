@@ -1,5 +1,5 @@
-import { scan } from '../../services/scan';
-import { parseRequest, success, error } from '../../helpers/general';
+import { scan } from '../services/scan';
+import { parseRequest, success, error } from '../helpers/general';
 import { doctorPass, doctorPatient } from '../helpers/constants';
 
 module.exports.doctorLogin = async evt => {
