@@ -21,8 +21,8 @@ module.exports.sendPatientResults = async evt => {
         return error(`Did not receive result (0 or 1).`, 400);
     }
 
-    if (req.note === undefined) {
-        return error(`Did not receive note.`, 400);
+    if (req.imageUri === undefined) {
+        return error(`Did not receive imageUri.`, 400);
     }
 
     // update patient result
@@ -31,7 +31,9 @@ module.exports.sendPatientResults = async evt => {
             req.patientId,
             {
                 result: req.result,
-                note: req.note,
+                imageUri: req.imageUri,
+                date: req.date,
+                patientName: req.patientName
             });
     } catch (err) {
         console.error(`ERROR while updating patient result: ${err.name}: ${err.message}`);

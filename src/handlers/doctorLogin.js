@@ -1,6 +1,6 @@
 import { scan } from '../services/scan';
 import { parseRequest, success, error } from '../helpers/general';
-import { doctorPass, doctorPatient } from '../helpers/constants';
+import { doctors, doctorPatient } from '../helpers/constants';
 
 module.exports.doctorLogin = async evt => {
     const req = parseRequest(evt);
@@ -22,11 +22,11 @@ module.exports.doctorLogin = async evt => {
         return error('Password not included.', 401);
     }
 
-    if (doctorPass[req.username] === undefined) {
+    if (doctors[req.username] === undefined) {
         return error('Username not found.', 401);
     }
 
-    if (req.pass !== doctorPass[req.username]) {
+    if (req.pass !== doctors[req.username].pass) {
         return error('Incorrect password.', 401);
     }
 
@@ -38,5 +38,11 @@ module.exports.doctorLogin = async evt => {
         return error('Something went wrong. Please try again or contact support.', 500);
     }
 
-    return success({ results });
+    return success({
+        doctor: {
+            firstName: doctors[req.username].firstName,
+            lastName: doctors[req.username].lastName,
+        },
+        results,
+    });
 };
